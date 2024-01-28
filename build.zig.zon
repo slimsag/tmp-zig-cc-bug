@@ -1,0 +1,10 @@
+.{
+    .name = "tmp-zig-cc-bug",
+    .version = "0.0.0",
+    .dependencies = .{
+        .mach_glfw = .{ .path = "mach-glfw" },
+    },
+    .paths = .{
+        "",
+    },
+}
