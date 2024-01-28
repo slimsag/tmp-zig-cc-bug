@@ -23,5 +23,6 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
     exe.root_module.addImport("mach-glfw", glfw_dep.module("mach-glfw"));
-    @import("mach_glfw").addPaths(exe);
+
+    @import("xcode_frameworks").addPaths(exe);
 }

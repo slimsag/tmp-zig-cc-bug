@@ -3,6 +3,9 @@
     .version = "0.0.0",
     .dependencies = .{
         .mach_glfw = .{ .path = "mach-glfw" },
+        .xcode_frameworks = .{
+            .path = "xcode-frameworks",
+        },
     },
     .paths = .{
         "",
