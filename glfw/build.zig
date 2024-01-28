@@ -23,26 +23,10 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
     lib.installLibraryHeaders(vulkan_headers_dep.artifact("vulkan-headers"));
-    if (target.result.os.tag == .linux) {
-        const x11_headers_dep = b.dependency("x11_headers", .{
-            .target = target,
-            .optimize = optimize,
-        });
-        const wayland_headers_dep = b.dependency("wayland_headers", .{
-            .target = target,
-            .optimize = optimize,
-        });
-        lib.linkLibrary(x11_headers_dep.artifact("x11-headers"));
-        lib.linkLibrary(wayland_headers_dep.artifact("wayland-headers"));
-        lib.installLibraryHeaders(x11_headers_dep.artifact("x11-headers"));
-        lib.installLibraryHeaders(wayland_headers_dep.artifact("wayland-headers"));
-    }
 
-    if (target.result.isDarwin()) {
-        // MacOS: this must be defined for macOS 13.3 and older.
-        lib.defineCMacro("__kernel_ptr_semantics", "");
-        @import("xcode_frameworks").addPaths(lib);
-    }
+    // MacOS: this must be defined for macOS 13.3 and older.
+    lib.defineCMacro("__kernel_ptr_semantics", "");
+    @import("xcode_frameworks").addPaths(lib);
 
     // Transitive dependencies, explicit linkage of these works around
     // ziglang/zig#17130
