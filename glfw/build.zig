@@ -26,7 +26,6 @@ pub fn build(b: *std.Build) void {
 
     // MacOS: this must be defined for macOS 13.3 and older.
     lib.defineCMacro("__kernel_ptr_semantics", "");
-    @import("xcode_frameworks").addPaths(lib);
 
     // Transitive dependencies, explicit linkage of these works around
     // ziglang/zig#17130
@@ -45,6 +44,7 @@ pub fn build(b: *std.Build) void {
     lib.linkFramework("CoreGraphics");
     lib.linkFramework("Foundation");
     lib.linkFramework("Metal");
+    addPathsToModule(&lib.root_module);
 
     const flags = [_][]const u8{ "-D_GLFW_COCOA", "-Isrc" };
     lib.addCSourceFiles(.{
@@ -56,6 +56,10 @@ pub fn build(b: *std.Build) void {
         .flags = &flags,
     });
     b.installArtifact(lib);
+}
+
+pub fn addPathsToModule(mod: *std.Build.Module) void {
+    @import("xcode_frameworks").addPathsToModule(mod);
 }
 
 const base_sources = [_][]const u8{

@@ -14,4 +14,5 @@ pub fn build(b: *std.Build) !void {
         .root_source_file = .{ .path = "src/main.zig" },
     });
     module.linkLibrary(glfw_dep.artifact("glfw"));
+    @import("glfw").addPathsToModule(module);
 }
